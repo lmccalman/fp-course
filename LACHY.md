@@ -48,5 +48,13 @@ foldl (+) (((((0 + 1) + 2) + 3) + 4) + 5) [] ->
 15
 ```
 
+## why does foldl reverse a list?
+```haskell
+foldl (flip (:.)) Nil (1 :. 2 :. 3 :. Nil) ->
+foldl (flip (:.)) (1 :. Nil) (2:. 3:. Nil) ->
+foldl (flip (:.)) (2 :. 1 :. Nil) (3 :. Nil) ->
+foldl (flip (:.)) (3 :. 2:. 1 :. Nil) Nil ->
+(3:. 2:. 1:. Nil)
+```
 
 
