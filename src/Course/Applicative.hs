@@ -150,8 +150,7 @@ lift2 ::
   -> f a
   -> f b
   -> f c
-lift2 =
-  error "todo: Course.Applicative#lift2"
+lift2 g fa = (<*>) (g <$> fa)
 
 -- | Apply a ternary function in the environment.
 -- /can be written using `lift2` and `(<*>)`./
@@ -183,8 +182,7 @@ lift3 ::
   -> f b
   -> f c
   -> f d
-lift3 =
-  error "todo: Course.Applicative#lift3"
+lift3 g fa fb = (<*>) (lift2 g fa fb)
 
 -- | Apply a quaternary function in the environment.
 -- /can be written using `lift3` and `(<*>)`./
@@ -217,16 +215,14 @@ lift4 ::
   -> f c
   -> f d
   -> f e
-lift4 =
-  error "todo: Course.Applicative#lift4"
+lift4  g fa fb fc = (<*>) (lift3 g fa fb fc)
 
 -- | Apply a nullary function in the environment.
 lift0 ::
   Applicative f =>
   a
   -> f a
-lift0 =
-  error "todo: Course.Applicative#lift0"
+lift0 = pure
 
 -- | Apply a unary function in the environment.
 -- /can be written using `lift0` and `(<*>)`./
@@ -244,8 +240,7 @@ lift1 ::
   (a -> b)
   -> f a
   -> f b
-lift1 =
-  error "todo: Course.Applicative#lift1"
+lift1 = (<$>)
 
 -- | Apply, discarding the value of the first argument.
 -- Pronounced, right apply.
@@ -270,8 +265,7 @@ lift1 =
   f a
   -> f b
   -> f b
-(*>) =
-  error "todo: Course.Applicative#(*>)"
+(*>) fa = (<*>) (flip const <$> fa) 
 
 -- | Apply, discarding the value of the second argument.
 -- Pronounced, left apply.
@@ -296,8 +290,7 @@ lift1 =
   f b
   -> f a
   -> f b
-(<*) =
-  error "todo: Course.Applicative#(<*)"
+(<*) fb = (<*>) (const <$> fb)
 
 -- | Sequences a list of structures to a structure of list.
 --
@@ -319,8 +312,7 @@ sequence ::
   Applicative f =>
   List (f a)
   -> f (List a)
-sequence =
-  error "todo: Course.Applicative#sequence"
+sequence = foldRight (lift2 (:.)) (pure Nil)
 
 -- | Replicate an effect a given number of times.
 --
@@ -343,8 +335,7 @@ replicateA ::
   Int
   -> f a
   -> f (List a)
-replicateA =
-  error "todo: Course.Applicative#replicateA"
+replicateA n = lift1 (replicate n)
 
 -- | Filter a list with a predicate that produces an effect.
 --
@@ -371,8 +362,13 @@ filtering ::
   (a -> f Bool)
   -> List a
   -> f (List a)
-filtering =
-  error "todo: Course.Applicative#filtering"
+-- filtering f l = sequence (foldRight (\x y -> _f) _g l)
+filtering = error "TODO"
+
+filfunc :: Bool -> a -> List a -> List a
+filfunc b a l = if b then a :. l else l
+
+
 
 -----------------------
 -- SUPPORT LIBRARIES --

@@ -117,7 +117,7 @@ sum = foldRight (+) 0
 length ::
   List a
   -> Int
-length = foldRight (\_ _ -> 1) 0
+length = foldRight (\_ x -> 1 + x) 0
 
 -- | Map the given function on each element of the list.
 --
