@@ -365,9 +365,20 @@ filtering ::
 -- filtering f l = sequence (foldRight (\x y -> _f) _g l)
 filtering = error "TODO"
 
-filfunc :: Bool -> a -> List a -> List a
-filfunc b a l = if b then a :. l else l
+filfunc :: 
+  Bool
+  -> a 
+  -> List a 
+  -> List a
+filfunc b x xs = if b then x :. xs else xs
 
+ff ::
+  Applicative f =>
+  f Bool
+  -> f a
+  -> f (List a)
+  -> f (List a)
+ff = lift3 filfunc
 
 
 -----------------------
